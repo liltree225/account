@@ -1,0 +1,49 @@
+services:
+  account_db:
+    image: postgres:16
+    container_name: account-db
+    environment:
+      POSTGRES_DB: account-db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: secret
+    ports:
+      - "5434:5432"
+    volumes:
+      - account_data:/var/lib/postgresql/data
+      - ./src/main/resources/liquibase/sql/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+
+#  kafka:
+#    image: apache/kafka:latest
+#    container_name: kafka
+#    ports:
+#      - "9092:9092"
+#    environment:
+#      KAFKA_NODE_ID: 1
+#      KAFKA_PROCESS_ROLES: 'broker,controller'
+#      KAFKA_LISTENERS: 'PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093'
+#      KAFKA_ADVERTISED_LISTENERS: 'PLAINTEXT://localhost:9092'
+#      KAFKA_CONTROLLER_QUORUM_VOTERS: '1@localhost:9093'
+#      KAFKA_CONTROLLER_LISTENER_NAMES: 'CONTROLLER'
+#      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+#      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+#      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+
+  # Раскомментируйте для запуска самого сервиса в контейнере:
+  # account_app:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   container_name: account-service
+  #   ports:
+  #     - "6245:6245"
+  #   environment:
+  #     SPRING_DATASOURCE_URL: jdbc:postgresql://account_db:5432/account-db
+  #     SPRING_DATASOURCE_USERNAME: postgres
+  #     SPRING_DATASOURCE_PASSWORD: secret
+  #     SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+  #   depends_on:
+  #     - account_db
+  #     - kafka
+
+volumes:
+  account_data:

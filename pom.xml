@@ -15,7 +15,7 @@
     <groupId>com.example</groupId>
     <artifactId>notification</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>notification</name>
+    <name>account</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
